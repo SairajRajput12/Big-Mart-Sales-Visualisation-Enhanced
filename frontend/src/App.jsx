@@ -1,10 +1,14 @@
 import './App.css'
+import BlackBoard from './components/BlackBoard'
 import Dashboard from './components/Dashboard'
 
 function App() {
 
   return (
-    <Dashboard />
+    <div className='user-ui'>
+        <BlackBoard />
+        <Dashboard />
+    </div>
   )
 }
 

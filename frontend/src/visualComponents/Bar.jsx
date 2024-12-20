@@ -1,68 +1,159 @@
-import React, { useEffect, useRef } from 'react';
-import * as d3 from 'd3';
+import React from "react";
+import './Bar.css';
+import ApexCharts from 'react-apexcharts';
 
-export default function Bar() {
-  const chartRef = useRef(null);
-
-  useEffect(() => {
-    const data = [65, 59, 80, 81, 56];
-    const labels = ['January', 'February', 'March', 'April', 'May'];
-
-    // Clear previous SVG if it exists
-    d3.select(chartRef.current).select('svg').remove();
-
-    const svg = d3
-      .select(chartRef.current)
-      .append('svg')
-      .attr('width', 500)
-      .attr('height', 300)
-      .style('background-color', 'rgba(245, 245, 245, 0.306)')
-      .style('border','1px solid white')
-      .style('border-radius','12px')
-      .style('margin-left','12px'); 
-
-    const margin = { top: 20, right: 30, bottom: 30, left: 40 };
-    const width = 500 - margin.left - margin.right;
-    const height = 300 - margin.top - margin.bottom;
-
-    const x = d3
-      .scaleBand()
-      .domain(labels)
-      .range([0, width])
-      .padding(0.1);
-
-    const y = d3
-      .scaleLinear()
-      .domain([0, d3.max(data)])
-      .nice()
-      .range([height, 0]);
-
-    const chart = svg
-      .append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
-
-    chart
-      .append('g')
-      .selectAll('rect')
-      .data(data)
-      .join('rect')
-      .attr('x', (d, i) => x(labels[i]))
-      .attr('y', d => y(d))
-      .attr('height', d => height - y(d))
-      .attr('width', x.bandwidth())
-      .attr('fill', 'steelblue');
-
-    chart.append('g').call(d3.axisLeft(y));
-
-    chart
-      .append('g')
-      .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(x));
-  }, []);
+const BarChart = () => {
+  const options = {
+    series: [{
+      name: 'Sales',
+      data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+    }],
+    chart: {
+      type: 'bar',
+      height: '100%',
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 4,
+        borderRadiusApplication: 'end',
+        horizontal: true,
+      }
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    xaxis: {
+      categories: [
+        'South Korea', 'Canada', 'United Kingdom',
+        'Netherlands', 'Italy', 'France',
+        'Japan', 'United States', 'China', 'Germany'
+      ],
+      // labels: {
+      //   style: {
+      //     colors: 'white', // Set x-axis label color to white
+      //     fontSize: '12px'
+      //   }
+      // },
+      labels:{
+        show:false
+      },
+      axisTicks: { show: false }, // Hide x-axis ticks
+      axisBorder: { show: false }, // Hide x-axis border
+    },
+    yaxis: {
+      labels: {
+        show: true ,// Hide y-axis labels 
+        style:{
+           colors:'white', 
+           fontSize:'12px'
+        }
+      }
+    },
+    grid: {
+      show: false // Disable grid lines
+    },
+  };
 
   return (
-    <div>
-      <div className='bar-chart' ref={chartRef}></div>
+    <div className="bar-chart">
+      <ApexCharts type="bar" options={options} series={options.series} width="100%" height="100%" />
     </div>
   );
-}
+};
+
+export default BarChart;
+
+
+
+// import React from "react";
+// import './Bar.css'; 
+// import { Bar } from "react-chartjs-2";
+
+// const BarChart = () => {
+//   const labels = ["January", "February", "March", "April", "May", "June"];
+
+//   const data = {
+//     labels: labels,
+//     datasets: [
+//       {
+//         label: "My First dataset",
+//         backgroundColor: "rgb(41, 54, 197)",
+//         margin:0, 
+//         data: [0, 10, 5, 2, 20, 30, 45],
+//         barPercentage: 0.9, 
+//         categoryPercentage: 0.8,
+//         data: [0, 10, 5, 2, 20, 30, 45],
+//       },
+//     ],
+//   };
+
+//   const options = {
+//     responsive: true,
+//     maintainAspectRatio: false, 
+//     layout: {
+//     padding: {
+//         top: 20,    
+//         right: 20,  
+//         bottom: 20, 
+//         left: 20,   
+//       },
+//     },
+//     plugins: {
+//       legend: {
+//         display: true,
+//         labels: {
+//           color: "rgba(246, 246, 246, 0.8)", 
+//           font: {
+//             size: 17, 
+//           },
+//         },
+//       },
+//       tooltip: {
+//         backgroundColor: "rgba(0,0,0,0.8)",
+//         titleColor: "rgba(246, 246, 246, 0.8)", 
+//         bodyColor: "rgba(246, 246, 246, 0.8)",
+//       },
+//     },
+//     scales: {
+//       x: {
+//         grid: {
+//           display: false, 
+//         },
+//         ticks: {
+//           color: "rgba(246, 246, 246, 0.8)",
+//           font: {
+//             size: 12, 
+//           },
+//         },
+//       },
+//       y: {
+//         grid: {
+//           display:false,
+//         },
+//         ticks: {
+//           color: "rgba(246, 246, 246, 0.8)", 
+//           font: {
+//             size: 12,
+//           },
+//           stepSize: 10, 
+//         },
+//       },
+//     },
+//     animation: {
+//       duration: 1500, 
+//       easing: "easeOutBounce",
+//     },
+//   };
+
+
+
+
+
+//   return (
+//     <div className="bar-chart" >
+//       <Bar options={options}  data={data} />
+//     </div>
+//   );
+// };
+
+// export default BarChart;

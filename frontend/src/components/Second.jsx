@@ -1,13 +1,17 @@
 import React from 'react'
-import Bar from '../visualComponents/Bar'
-import './First.css'; 
+import './Second.css'; 
+// import AreaChart from '../visualComponents/AreaChart';
+import BarChart from '../visualComponents/Bar';
+import PieChart from '../visualComponents/Pie';
+import AreaC from '../visualComponents/AreaChart';
 
 
 export default function Second() {
   return (
-    <div className='first' >
-        <Bar />
-        
+    <div className='second' >
+        <BarChart />
+        <PieChart />
+        <AreaC />
     </div>
   )
 }

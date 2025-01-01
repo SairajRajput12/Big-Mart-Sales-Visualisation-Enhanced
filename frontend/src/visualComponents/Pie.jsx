@@ -27,7 +27,7 @@ const data = {
         "#FF8600",
         "#0E2F44",
       ],
-      borderColor: "#fff",
+      borderColor: "white",
       borderWidth: 1,
       hoverBackgroundColor: [
         "#003e4f",
@@ -43,10 +43,33 @@ const data = {
   ],
 };
 
+const options = {
+  plugins: {
+    legend: {
+      labels: {
+        color: "white", // Set label text color
+        font: {
+          size: 14, // Adjust font size
+          family: "Arial", // Change font family
+        },
+      },
+    },
+  },
+  layout: {
+    padding: {
+      // top: 20, // Padding from the top
+      // right: 30, // Padding from the right
+      bottom: 20, // Padding from the bottom
+      left: 30, // Padding from the left
+    },
+  },
+};
+
+
 const PieChart = () => {
   return (
     <div className="pie-chart">
-      <Pie data={data} />
+      <Pie data={data} options={options} />
     </div>
   );
 };

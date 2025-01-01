@@ -25,7 +25,7 @@ const AreaChart = () => {
       curve: 'smooth',
     },
     title: {
-      text: 'Area Chart Example',
+      text: 'Area Chart',
       align: 'left',
     },
     xaxis: {
@@ -48,6 +48,9 @@ const AreaChart = () => {
       x: {
         format: 'dd/MM/yy HH:mm',
       },
+    },
+    grid: {
+      show: false // Disable grid lines
     },
   };
 

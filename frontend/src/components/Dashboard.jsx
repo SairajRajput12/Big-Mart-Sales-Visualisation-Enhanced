@@ -1,17 +1,12 @@
 import React from 'react'
-import First from './First'
-import Second from './Second'
-import Third from './Third'
-import Heading from './Heading'
-import Dropdown from '../visualComponents/DropDown'
+import ShowDashboard from './ShowDashboard'
 
 export default function Dashboard() {
+   
   return (
     <>
         <div className='main-content'>
-            <First />
-            <Second />
-            <Third />
+            <ShowDashboard />
         </div>
     </>
   )

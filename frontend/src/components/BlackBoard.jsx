@@ -11,7 +11,7 @@ export default function BlackBoard() {
 
   return (
     <SideBoard>
-        <h1>Hello Learner !</h1>
+        <h1>Hello Learner</h1>
         <Button onClick={() => navigate('/')} className='user-button'>Add Dataset</Button>
         <Button onClick={() => navigate('/show')} className='user-button'>Show Dashboard</Button>
         <Button onClick={() => navigate('/chat')} className='user-button'>Get Insight From Our Bot</Button>

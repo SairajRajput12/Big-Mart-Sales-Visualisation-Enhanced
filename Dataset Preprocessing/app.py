@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import pandas as pd
+import numpy as np 
 
 app = Flask(__name__)
 
@@ -7,38 +8,42 @@ app = Flask(__name__)
 def home():
     return jsonify({"message": "Hello flask application"})
 
+
 @app.route('/preprocess', methods=['POST'])
 def preprocess_data():
     try:
         # Get JSON data from the request
         data = request.json
-        print(request)
         if not data or 'dataframe' not in data:
             return jsonify({"error": "No dataframe found in the request"}), 400
 
         # Convert JSON dataframe to pandas DataFrame
         dataframe = pd.DataFrame(data['dataframe'])
+        dataframe = dataframe.dropna()
 
-        print(dataframe)
-        # Dropping null values
-        if dataframe.isnull().any().any():
-            dataframe = dataframe.dropna()
+        # Columns to validate and extract
+        required_columns = [
+            'ProductVisibility', 'ProductID', 'ProductType',
+            'EstablishmentYear',
+            'LocationType', 'OutletType', 'MRP','OutletSales'
+        ]
+        
 
-        # Setting the data type for columns
-        # try:
-        #     dataframe['ProductVisibility'] = dataframe['ProductVisibility'].astype(float)
-        #     dataframe['MRP'] = dataframe['MRP'].astype(int)
-        #     dataframe['Outlet_Establishment_Year'] = dataframe['Outlet_Establishment_Year'].astype(int)
-        #     dataframe['Item_Outlet_Sales'] = dataframe['Item_Outlet_Sales'].astype(int)
-        #     dataframe['Item_Visibility_Percentage'] = dataframe['Item_Visibility_Percentage'].astype(int)
-        # except KeyError as e:
-        #     return jsonify({"error": f"Column {str(e)} not found in the dataframe"}), 400
-        # except ValueError as e:
-        #     return jsonify({"error": f"Error in data type conversion: {str(e)}"}), 400
+        extracted_data = {}
+        missing_columns = []
 
-        result = dataframe.to_dict(orient='records')
+        # Validate and extract required columns
+        for column in required_columns:
+            if column in dataframe.columns:
+                extracted_data[column] = dataframe[column].to_numpy().tolist()
+            else:
+                missing_columns.append(column)
 
-        return jsonify({'message': 'Dataset preprocessed successfully!', 'data': result})
+        
+        return jsonify({
+            "message": "Dataset preprocessed successfully!",
+            "data": extracted_data
+        })
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 

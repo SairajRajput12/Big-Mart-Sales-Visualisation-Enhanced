@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './TimeRangeSlider.css';
 
-export default function TimeRangeSlider() {
-  const [startYear, setStartYear] = useState(2000); // Starting year
-  const [currentYear, setCurrentYear] = useState(2000); // Current year selected
-  const [endYear, setEndYear] = useState(2100); // Ending year
+export default function TimeRangeSlider({max_year,min_year}) {
+  const [startYear, setStartYear] = useState(max_year); // Starting year
+  const [currentYear, setCurrentYear] = useState(); // Current year selected
+  const [endYear, setEndYear] = useState(min_year); // Ending year
 
   return (
     <div className='slider'>

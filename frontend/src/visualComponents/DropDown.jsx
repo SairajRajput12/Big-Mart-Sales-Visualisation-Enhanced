@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function Dropdown() {
+export default function Dropdown({stores}) {
   const [selectedValue, setSelectedValue] = useState('');
 
   const handleChange = (event) => {
@@ -8,7 +8,7 @@ export default function Dropdown() {
   };
 
   return (
-    <div style={{ marginLeft:'20px',border:'1px solid white',borderRadius:'12px',width:'200px',alignContent:'center',padding:'12px',fontFamily: 'Arial, sans-serif' ,backgroundColor:'rgba(245, 245, 245, 0.306)',justifyContent:'center'}}>
+    <div style={{ marginLeft:'20px',border:'1px solid white',borderRadius:'12px',width:'240px',alignContent:'center',padding:'12px',fontFamily: 'Arial, sans-serif' ,backgroundColor:'rgba(245, 245, 245, 0.306)',justifyContent:'center'}}>
       <label htmlFor="dropdown" style={{ color:'white',fontWeight: 'bold',marginLeft:'30px', marginRight: '8px',marginTop:'24px' }}>
         Choose an option:
       </label>
@@ -30,9 +30,7 @@ export default function Dropdown() {
         <option value="" disabled>
           Select an option
         </option>
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
+        {stores && stores.map((value,index) => (<option key={index} value="option1">{value}</option>))}
       </select>
     </div>
   );

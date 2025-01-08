@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import * as XLSX from 'xlsx';
 import './UploadDataset.css';
+import { DatasetContext } from '../Context/DatasetContext';
+
+
 
 export default function UploadDataset() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadStatus, setUploadStatus] = useState('');
-  const [excelData, setExcelData] = useState(null);
+  const {excelData,uploadStatus,setExcelData,setUploadStatus} = useContext(DatasetContext); 
 
+  
   const preprocessData = async (jsonData) => {
     try {
       const response = await fetch('http://127.0.0.1:5000/preprocess', {
@@ -23,6 +26,8 @@ export default function UploadDataset() {
         console.log('Data processed successfully:', result);
         setUploadStatus('File processed and uploaded successfully!');
         console.log(result.data); 
+        setExcelData(result.data); 
+        setUploadStatus(true); 
       } else {
         console.error('Error processing data:', result);
         setUploadStatus('Error processing file.');
@@ -49,7 +54,6 @@ export default function UploadDataset() {
         const jsonData = XLSX.utils.sheet_to_json(firstSheet);
         
         console.log(jsonData);
-        setExcelData(jsonData);
         preprocessData(jsonData);
       };
 

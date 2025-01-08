@@ -75,6 +75,8 @@ def specify_data():
     name_of_store = data.get('store_type') 
     dataframe = data.get('dataframe') 
     
+    print(dataframe)
+    
     if not data or 'dataframe' not in data or 'store_type' not in data:
         return jsonify({"error": "No dataframe found in the request"}), 400
 

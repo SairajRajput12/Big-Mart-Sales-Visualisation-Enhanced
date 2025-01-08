@@ -69,5 +69,63 @@ def preprocess_data():
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
+@app.route('/specific_data',methods=['POST']) 
+def specify_data(): 
+    data = request.json 
+    name_of_store = data.get('store_type') 
+    dataframe = data.get('dataframe') 
+    
+    if not data or 'dataframe' not in data or 'store_type' not in data:
+        return jsonify({"error": "No dataframe found in the request"}), 400
+
+    # Convert JSON dataframe to pandas DataFrame
+    dataframe = pd.DataFrame(data['dataframe'])
+    specified_dataframe = dataframe.loc[dataframe['Outlet_Type'] == name_of_store] 
+    
+    required_columns = [
+            'Item_Visibility', 'Item_Type','Item_MRP',
+            'Outlet_Establishment_Year',
+            'Outlet_Location_Type', 'Outlet_Type', 'Item_Outlet_Sales'
+        ]
+        
+
+    extracted_data = {}
+    missing_columns = []
+
+    # print(extracted_data)
+        
+    # Validate and extract required columns
+    for column in required_columns:
+        if column in specified_dataframe.columns:
+            extracted_data[column] = specified_dataframe[column].to_numpy().tolist()
+        else:
+            missing_columns.append(column)
+        
+    if 'Outlet_Establishment_Year' in specified_dataframe.columns: 
+        extracted_data['max_year'] = int(specified_dataframe['Outlet_Establishment_Year'].max()) 
+        extracted_data['min_year'] = int(specified_dataframe['Outlet_Establishment_Year'].min() )
+        
+    if 'Item_Outlet_Sales' in specified_dataframe.columns: 
+        extracted_data['sum_sales'] = int(specified_dataframe['Item_Outlet_Sales'].sum())
+        
+    if 'Item_MRP' in specified_dataframe.columns: 
+        extracted_data['sum_mrp'] = int(specified_dataframe['Item_MRP'].sum())
+        
+    if 'Outlet_Type' in specified_dataframe.columns: 
+        extracted_data['Unique_Outlet_Type'] = specified_dataframe['Outlet_Type'].unique().tolist() 
+        print(specified_dataframe['Outlet_Type'].unique()) 
+    # print(extracted_data)
+    
+    return jsonify({
+            "message": "Dataset preprocessed successfully!",
+            "data": extracted_data
+    })
+        
+
+    
+    
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)

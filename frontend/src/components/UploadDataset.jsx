@@ -7,10 +7,11 @@ import { DatasetContext } from '../Context/DatasetContext';
 
 export default function UploadDataset() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const {excelData,uploadStatus,setExcelData,setUploadStatus} = useContext(DatasetContext); 
+  const {excelData,uploadStatus,setExcelData,setUploadStatus,setDataframe} = useContext(DatasetContext); 
 
   
   const preprocessData = async (jsonData) => {
+    setDataframe(jsonData); 
     try {
       const response = await fetch('http://127.0.0.1:5000/preprocess', {
         method: 'POST',

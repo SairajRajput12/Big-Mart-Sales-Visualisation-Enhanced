@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { DatasetContext } from '../Context/DatasetContext';
 
 export default function Dropdown({stores}) {
   const [selectedValue, setSelectedValue] = useState('');
+  const {dataframe,setDataframe} = useContext(DatasetContext)
+
+  console.log(selectedValue); 
+  console.log(dataframe); 
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
+
   };
 
   return (
@@ -30,7 +36,7 @@ export default function Dropdown({stores}) {
         <option value="" disabled>
           Select an option
         </option>
-        {stores && stores.map((value,index) => (<option key={index} value="option1">{value}</option>))}
+        {stores && stores.map((value,index) => (<option key={index} value={value}>{value}</option>))}
       </select>
     </div>
   );

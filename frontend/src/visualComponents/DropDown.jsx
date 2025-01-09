@@ -3,9 +3,7 @@ import { DatasetContext } from '../Context/DatasetContext';
 
 export default function Dropdown({ stores }) {
   const [selectedValue, setSelectedValue] = useState('');
-  const [uploadStatus, setUploadStatus] = useState(''); 
-  const [excelData, setExcelData] = useState(null); 
-  const { dataframe } = useContext(DatasetContext);
+  const { dataframe,excelData, setExcelData,uploadStatus, setUploadStatus } = useContext(DatasetContext);
 
   const fetchChangedData = async () => {
     if (!selectedValue) return;

@@ -114,7 +114,7 @@ def specify_data():
         extracted_data['sum_mrp'] = int(specified_dataframe['Item_MRP'].sum())
         
     if 'Outlet_Type' in specified_dataframe.columns: 
-        extracted_data['Unique_Outlet_Type'] = specified_dataframe['Outlet_Type'].unique().tolist() 
+        extracted_data['Unique_Outlet_Type'] = dataframe['Outlet_Type'].unique().tolist() 
         print(specified_dataframe['Outlet_Type'].unique()) 
     # print(extracted_data)
     

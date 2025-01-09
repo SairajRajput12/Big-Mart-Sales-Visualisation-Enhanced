@@ -4,12 +4,12 @@ import ApexCharts from 'react-apexcharts';
 import './Area.css'; 
 
 
-const AreaChart = () => {
+const AreaChart = ({labels,sales,title}) => {
   // Define the data for the chart
   const series = [
     {
-      name: 'My Dataset',
-      data: [65, 59, 80, 81, 56, 55, 40],
+      name: title,
+      data: sales,
     },
   ];
 
@@ -29,7 +29,7 @@ const AreaChart = () => {
       align: 'left',
     },
     xaxis: {
-      categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      categories: labels,
     },
     fill: {
       type: 'gradient',

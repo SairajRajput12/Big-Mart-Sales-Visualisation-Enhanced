@@ -55,10 +55,24 @@ def preprocess_data():
         if 'Item_MRP' in dataframe.columns: 
             extracted_data['sum_mrp'] = int(dataframe['Item_MRP'].sum())
         
+        
+        
         if 'Outlet_Type' in dataframe.columns: 
             extracted_data['Unique_Outlet_Type'] = dataframe['Outlet_Type'].unique().tolist() 
             print(dataframe['Outlet_Type'].unique()) 
         # print(extracted_data)
+        
+        # way to find total sales per outlet type 
+        outlet_sales_data = {}
+        for outlet in extracted_data['Unique_Outlet_Type']:
+            outlet_data = dataframe.loc[dataframe['Outlet_Type'] == outlet] 
+            total_sales = int(outlet_data['Item_Outlet_Sales'].sum()) 
+            outlet_sales_data[outlet] = total_sales
+        
+        extracted_data['outlet_type_per_sales'] = outlet_sales_data 
+        
+        
+        
         
 
         
@@ -118,10 +132,19 @@ def specify_data():
         print(specified_dataframe['Outlet_Type'].unique()) 
     # print(extracted_data)
     
+    outlet_sales_data = {}
+    for outlet in extracted_data['Unique_Outlet_Type']:
+        outlet_data = dataframe.loc[dataframe['Outlet_Type'] == outlet] 
+        total_sales = int(outlet_data['Item_Outlet_Sales'].sum()) 
+        outlet_sales_data[outlet] = total_sales
+        
+    extracted_data['outlet_type_per_sales'] = outlet_sales_data 
+        
+    
     return jsonify({
             "message": "Dataset preprocessed successfully!",
             "data": extracted_data
-    })
+    }),200
         
 
     

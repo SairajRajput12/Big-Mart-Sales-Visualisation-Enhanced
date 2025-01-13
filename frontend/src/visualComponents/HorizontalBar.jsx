@@ -14,7 +14,7 @@ const style = {
   height: '275px',
 };
 
-export default function HorizontalChart() {
+export default function HorizontalChart({title,labels,data}) {
   const options = {
     chart: {
       type: 'bar',
@@ -35,7 +35,7 @@ export default function HorizontalChart() {
       },
     },
     xaxis: {
-      categories: ['Apple', 'Mango', 'Orange', 'Watermelon'], 
+      categories: labels, 
       axisTicks: {
         show: false, 
       },
@@ -60,8 +60,8 @@ export default function HorizontalChart() {
 
   const series = [
     {
-      name: 'Fruits',
-      data: [44, 55, 13, 33], 
+      name: title,
+      data: data, 
     },
   ];
 

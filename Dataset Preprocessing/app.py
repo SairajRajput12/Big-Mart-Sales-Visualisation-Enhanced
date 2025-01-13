@@ -109,6 +109,35 @@ def preprocess_data():
         
         print('error')
 
+        # calculating the sales on each outlet type location
+        
+        extracted_data['locations'] = dataframe['Outlet_Location_Type'].unique().tolist() 
+        location_data = {} 
+        for location in extracted_data['locations']: 
+            location_record = dataframe.loc[dataframe['Outlet_Location_Type'] == location]
+            total_sales = int(location_record['Item_Outlet_Sales'].sum())
+            location_data[location] = total_sales 
+        
+        extracted_data['location_data'] = location_data
+        
+        item_per_sales_data = []
+        for item in extracted_data['items']: 
+            item_record = dataframe.loc[dataframe['Item_Type'] == item] 
+            total_sales = int(item_record['Item_Outlet_Sales'].sum())
+            item_per_sales_data.append({'item':item,'sales':total_sales}) 
+        
+        extracted_data['items_sales_per_items'] = item_per_sales_data
+        print('no error upto line 130')
+        
+        item_visibility = {} 
+        for item in extracted_data['items']: 
+            item_record = dataframe.loc[dataframe['Item_Type'] == item] 
+            avg_visibility = item_record['Item_Visibility'].sum()
+            print(item_record) 
+            item_visibility[item] = avg_visibility 
+        extracted_data['item_total_visibility'] = item_visibility
+        
+        print(extracted_data) 
         
         return jsonify({
             "message": "Dataset preprocessed successfully!",
@@ -176,9 +205,13 @@ def specify_data():
         
     extracted_data['outlet_type_per_sales'] = outlet_sales_data 
     
+    if 'Item_Type' in dataframe.columns: 
+        extracted_data['items'] = dataframe['Item_Type'].unique().tolist()
+    
     item_sales_data = []
     for item in extracted_data['items']: 
-        item_data = dataframe.loc[dataframe['Item_Type'] == item] 
+        print(item)
+        item_data = specified_dataframe.loc[specified_dataframe['Item_Type'] == item] 
         total_cost = int(item_data['Item_MRP'].sum()) 
         temp_data = {}
         temp_data['name'] = item 
@@ -187,6 +220,25 @@ def specify_data():
              
          
     extracted_data['items_cost_per_item'] = item_sales_data 
+    print(extracted_data)
+    
+    extracted_data['locations'] = dataframe['Outlet_Location_Type'].unique().tolist() 
+    location_data = {} 
+    for location in extracted_data['locations']: 
+        location_record = dataframe.loc[dataframe['Outlet_Location_Type'] == location]
+        total_sales = int(location_record['Item_Outlet_Sales'].sum())
+        location_data[location] = total_sales 
+        
+    extracted_data['location_data'] = location_data
+    
+            
+    item_per_sales_data = []
+    for item in extracted_data['items']: 
+        item_record = dataframe.loc[dataframe['Item_Type'] == item] 
+        total_sales = int(item_record['Item_Outlet_Sales'].sum())
+        item_per_sales_data.append({'item':item,'sales':total_sales}) 
+        
+    extracted_data['items_sales_per_items'] = item_per_sales_data
         
     
     return jsonify({

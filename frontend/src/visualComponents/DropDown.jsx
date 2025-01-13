@@ -5,11 +5,19 @@ export default function Dropdown({ stores }) {
   const [selectedValue, setSelectedValue] = useState('');
   const { dataframe,excelData, setExcelData,uploadStatus, setUploadStatus } = useContext(DatasetContext);
 
-  const fetchChangedData = async () => {
+  const fetchChangedData = async (val) => {
     if (!selectedValue) return;
+    let rot = 'specific_data'; 
+    if(val === 'all'){
+      rot = 'preprocess';
+    }
+
+    console.log(rot); 
+
+    
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/specific_data', {
+      const response = await fetch(`http://127.0.0.1:5000/${rot}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,8 +42,9 @@ export default function Dropdown({ stores }) {
   };
 
   const handleChange = (event) => {
+    console.log(event.target.value); 
     setSelectedValue(event.target.value);
-    fetchChangedData();
+    fetchChangedData(event.target.value);
   };
 
   return (
@@ -70,8 +79,8 @@ export default function Dropdown({ stores }) {
           cursor: 'pointer',
         }}
       >
-        <option value="" disabled>
-          Select an option
+        <option value='all'>
+          All
         </option>
         {stores &&
           stores.map((value, index) => (

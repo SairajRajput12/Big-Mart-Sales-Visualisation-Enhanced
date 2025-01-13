@@ -2,18 +2,18 @@ import React from 'react'
 import ApexCharts from 'react-apexcharts';
 import './DonutChart.css'; 
 
-export default function DonutChart() {      
+export default function DonutChart({labels,data}) {      
       const options = {
         chart: {
           type: 'donut',
         },
-        labels: ['Apple', 'Mango', 'Orange', 'Watermelon'],
+        labels: labels,
         legend: {
           position: 'bottom', 
         },
       };
     
-      const series = [44, 55, 13, 33]; 
+      const series = data; 
     
     
   return (

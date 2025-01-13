@@ -40,7 +40,7 @@ export default function UploadDataset() {
         setUploadStatus('File processed and uploaded successfully!');
         console.log(result.data);
         setExcelData(result.data);
-        setUploadStatus(true);
+        setUploadStatus('data uploaded succesfully !');
       } else {
         console.error('Error processing data:', result);
         setUploadStatus('Error processing file.');

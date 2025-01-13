@@ -1,12 +1,18 @@
 import React, { useContext, useState } from 'react';
-import './ChatBot.css'; // Optional: Add styles in a separate file
+import './ChatBot.css';
 import { DatasetContext } from '../Context/DatasetContext';
+import {useNavigate} from 'react-router-dom'; 
+
 
 export default function ChatBot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState(''); 
-  const {excelData} = useContext(DatasetContext); 
+  const {excelData,uploadStatus} = useContext(DatasetContext); 
+  const navigate = useNavigate(); 
 
+  if(!uploadStatus){
+    navigate('/'); 
+  }
 
   const handleSend = async() => {
     if (input.trim()) {

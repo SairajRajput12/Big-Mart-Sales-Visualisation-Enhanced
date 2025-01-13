@@ -1,21 +1,47 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './ChatBot.css'; // Optional: Add styles in a separate file
+import { DatasetContext } from '../Context/DatasetContext';
 
 export default function ChatBot() {
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(''); 
+  const {excelData} = useContext(DatasetContext); 
 
-  const handleSend = () => {
+
+  const handleSend = async() => {
     if (input.trim()) {
       setMessages([...messages, { user: 'You', text: input }]);
       setInput('');
       // Simulate bot response
-      setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          { user: 'Bot', text: 'Hello! How can I help you?' },
-        ]);
-      }, 1000);
+      console.log(input); 
+      try{
+        const response = await fetch('http://127.0.0.1:5000/gemini', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            sent_data:excelData, 
+            chat:input 
+          }),
+        });
+        
+        
+        const result = await response.json(); 
+        if(response.ok){
+          console.log('response processed succesfully !!'); 
+
+          setTimeout(() => {
+            setMessages((prev) => [
+              ...prev,
+              { user: 'DataBot', text: result.response },
+            ]);
+          }, 1000);
+        }
+      }
+      catch(error){
+        console.log(error)
+      }
     }
   };
 

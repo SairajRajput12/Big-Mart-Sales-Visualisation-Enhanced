@@ -2,6 +2,12 @@ from flask import Flask, request, jsonify
 import pandas as pd
 import numpy as np 
 from flask_cors import CORS
+import os
+from dotenv import load_dotenv 
+import google.generativeai as genai
+
+load_dotenv() 
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -247,8 +253,42 @@ def specify_data():
     }),200
         
 
-    
-    
+@app.route('/gemini',methods=['POST']) 
+def generate_content_ai(): 
+    try: 
+        data = request.json 
+        dataframe = data.get('sent_data', {})
+        chat = data.get('chat')
+        print(chat) 
+        print(dataframe.items)
+        data_to_sent = {
+            'Unique_Outlet_Type': dataframe.get('Unique_Outlet_Type'), 
+            'item_total_visibility':dataframe.get('item_total_visibility'), 
+            'items':dataframe.get('items'), 
+            'items_cost_per_item':dataframe.get('items_cost_per_item'), 
+            'items_sales_per_items':dataframe.get('items_sales_per_items'), 
+            'location_data':dataframe.get('location_data'), 
+            'locations':dataframe.get('locations'), 
+            'years': [dataframe.get('max_year'), dataframe.get('min_year')],
+            'outlet_type_per_sales':dataframe.get('outlet_type_per_sales'), 
+            'sum_mrp':dataframe.get('sum_mrp'), 
+            'sum_sales':dataframe.get('sum_sales'), 
+            'years':dataframe.get('years'), 
+            'years_total_sales':dataframe.get('year_total_sales')
+        }
+        
+        print(data_to_sent)
+        genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        respose = model.generate_content(
+            f"{data_to_sent} based on this data,please answer in short and in plain text {chat}"
+        )
+        print(respose.text); 
+        
+        return jsonify({'message':'succesfully got answer !','response':respose.text}),200 
+
+    except Exception as e: 
+        return jsonify({'message':'error has occured','error':str(e)}),500     
 
 
 

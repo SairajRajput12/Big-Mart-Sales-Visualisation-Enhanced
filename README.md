@@ -3,6 +3,9 @@
 
 # **Data Visualization and Chatbot Application**
 
+![Application Preview](https://th.bing.com/th/id/OIP.Xst4M9C5qxoqebUkNzFnXgHaEK?rs=1&pid=ImgDetMain)
+
+
 ## **Overview**
 This application allows users to upload a dataset, visualize it through interactive graphs and charts (similar to Power BI dashboards), and interact with a chatbot service for advanced insights or assistance. The application is built using **Flask** for the backend and **React (Vite)** for the frontend, ensuring a seamless user experience. The entire project is deployed for easy accessibility.
 

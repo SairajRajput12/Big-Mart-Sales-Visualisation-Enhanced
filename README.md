@@ -3,7 +3,7 @@
 
 # **Data Visualization and Chatbot Application**
 
-![Application Preview](https://th.bing.com/th/id/OIP.Xst4M9C5qxoqebUkNzFnXgHaEK?rs=1&pid=ImgDetMain)
+![Application Preview]([https://th.bing.com/th/id/OIP.Xst4M9C5qxoqebUkNzFnXgHaEK?rs=1&pid=ImgDetMain](https://i.pinimg.com/originals/14/77/83/147783ce0ca9716510104a1e975de405.gif))
 
 
 ## **Overview**

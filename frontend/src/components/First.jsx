@@ -20,6 +20,7 @@ export default function First({ excelData }) {
 
   return (
     <div className='first'>
+      <Heading />
       <Card
         className='card'
         title='Sales'
@@ -34,7 +35,6 @@ export default function First({ excelData }) {
       />
       <TimeRangeSlider max_year={excelData.max_year} min_year={excelData.min_year} />
       <Dropdown stores={excelData.Unique_Outlet_Type} />
-      <Heading />
     </div>
   );
 }

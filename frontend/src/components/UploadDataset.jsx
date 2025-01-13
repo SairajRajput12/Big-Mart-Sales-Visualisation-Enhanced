@@ -3,15 +3,27 @@ import * as XLSX from 'xlsx';
 import './UploadDataset.css';
 import { DatasetContext } from '../Context/DatasetContext';
 
-
-
 export default function UploadDataset() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const {excelData,uploadStatus,setExcelData,setUploadStatus,setDataframe} = useContext(DatasetContext); 
+  const { excelData, uploadStatus, setExcelData, setUploadStatus, setDataframe } = useContext(DatasetContext);
 
-  
+  // Required columns to check in the dataset
+  const requiredColumns = [
+    'Item_Identifier', 'Item_Weight', 'Item_Fat_Content', 'Item_Visibility', 
+    'Item_Type', 'Item_MRP', 'Outlet_Identifier', 'Outlet_Establishment_Year', 
+    'Outlet_Size', 'Outlet_Location_Type', 'Outlet_Type', 'Item_Outlet_Sales'
+  ];
+
   const preprocessData = async (jsonData) => {
-    setDataframe(jsonData); 
+    // Check if the dataset contains all required columns
+    const missingColumns = requiredColumns.filter(col => !jsonData[0].hasOwnProperty(col));
+
+    if (missingColumns.length > 0) {
+      setUploadStatus(`Error: Missing columns - ${missingColumns.join(', ')}`);
+      return;
+    }
+
+    setDataframe(jsonData);
     try {
       const response = await fetch('http://127.0.0.1:5000/preprocess', {
         method: 'POST',
@@ -26,9 +38,9 @@ export default function UploadDataset() {
       if (response.ok) {
         console.log('Data processed successfully:', result);
         setUploadStatus('File processed and uploaded successfully!');
-        console.log(result.data); 
-        setExcelData(result.data); 
-        setUploadStatus(true); 
+        console.log(result.data);
+        setExcelData(result.data);
+        setUploadStatus(true);
       } else {
         console.error('Error processing data:', result);
         setUploadStatus('Error processing file.');
@@ -82,6 +94,18 @@ export default function UploadDataset() {
   return (
     <div className="upload-dataset-container">
       <h2>Upload Dataset</h2>
+      <p className="instruction-text">
+        1. Please ensure your dataset contains the following columns:
+        <ul>
+          {requiredColumns.map((col, index) => (
+            <li key={index}>{col}</li>
+          ))}
+        </ul>
+
+        2. You will be unable to access another tab until you upload dataset and got validation message. 
+        <br />
+        3. This is secure you are free to use it. 
+      </p>
       <div className="upload-area">
         <input
           type="file"
